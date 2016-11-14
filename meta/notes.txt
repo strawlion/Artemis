@@ -1,21 +1,60 @@
 Data Tables
+http://www.ohdsi.org/web/wiki/doku.php?id=documentation:cdm:standardized_clinical_data_tables
 
 care_site - care_site_id,care_site_name,place_of_service_concept_id,location_id,care_site_source_value,place_of_service_source_value
+The CARE_SITE table contains a list of uniquely identified institutional (physical or organizational) units where healthcare delivery is practiced (offices, wards, hospitals, clinics, etc.).
+
 condition_occurrence - condition_occurrence_id,person_id,condition_concept_id,condition_start_date,condition_end_date,condition_type_concept_id,stop_reason,provider_id,visit_occurrence_id,condition_source_value,condition_source_concept_id
+Conditions are records of a Person suggesting the presence of a disease or medical condition stated as a diagnosis, a sign or a symptom, which is either observed by a Provider or reported by the patient. Conditions are recorded in different sources and levels of standardization
+
 death - person_id,death_date,death_type_concept_id,cause_concept_id,cause_source_value,cause_source_concept_id
+The death domain contains the clinical event for how and when a Person dies. A person can have up to one record if the source system contains evidence about the Death
+
 device_cost - device_cost_id,device_exposure_id,currency_concept_id,paid_copay,paid_coinsurance,paid_toward_deductible,paid_by_payer,paid_by_coordination_benefits,total_out_of_pocket,total_paid,payer_plan_period_id
+The DEVICE_COST table captures the cost of a medical Device or supply used on a Person. The information about the cost is only derived from the amounts paid for the device.
+
 device_exposure - device_exposure_id,person_id,device_concept_id,device_exposure_start_date,device_exposure_end_date,device_type_concept_id,unique_device_id,quantity,provider_id,visit_occurrence_id,device_source_value,device_source_concept_id
+The device exposure domain captures information about a person’s exposure to a foreign physical object or instrument that which is used for diagnostic or therapeutic purposes through a mechanism beyond chemical action. Devices include implantable objects (e.g. pacemakers, stents, artificial joints), medical equipment and supplies (e.g. bandages, crutches, syringes), other instruments used in medical procedures (e.g. sutures, defibrillators) and material used in clinical care (e.g. adhesives, body material, dental material, surgical material).
+
 drug_cost - drug_cost_id,drug_exposure_id,currency_concept_id,paid_copay,paid_coinsurance,paid_toward_deductible,paid_by_payer,paid_by_coordination_of_benefits,total_out_of_pocket,total_paid,ingredient_cost,dispensing_fee,average_wholesale_price,payer_plan_period_id
+The DRUG_COST table captures records containing the cost of a Drug Exposure. The information about the cost is defined by the amount of money paid by the Person and Payer for the Drug, as well as the charged cost of the Drug. In addition, a reference to the health plan information in the PAYER_PLAN_PERIOD table is stored in the record that is responsible for the determination of the cost as well as some of the Payments.
+
 drug_exposure - drug_exposure_id,person_id,drug_concept_id,drug_exposure_start_date,drug_exposure_end_date,drug_type_concept_id,stop_reason,refills,quantity,days_supply,sig,route_concept_id,effective_drug_dose,dose_unit_concept_id,lot_number,provider_id,visit_occurrence_id,drug_source_value,drug_source_concept_id,route_source_value,dose_unit_source_value
+The drug exposure domain captures records about the utilization of a Drug when ingested or otherwise introduced into the body. A Drug is a biochemical substance formulated in such a way that when administered to a Person it will exert a certain physiological effect. Drugs include prescription and over-the-counter medicines, vaccines, and large-molecule biologic therapies. Radiological devices ingested or applied locally do not count as Drugs.
+Drug Exposure is inferred from clinical events associated with orders, prescriptions written, pharmacy dispensings, procedural administrations, and other patient-reported information
+
 location - location_id,address_1,address_2,city,state,zip,county,location_source_value
+The LOCATION table represents a generic way to capture physical location or address informationof Persons and Care Sites.
+
 measurement_occurrence - measurement_id,person_id,measurement_concept_id,measurement_date,measurement_time,measurement_type_concept_id,operator_concept_id,value_as_number,value_as_concept_id,unit_concept_id,range_low,range_high,provider_id,visit_occurrence_id,measurement_source_value,measurement_source_concept_id,unit_source_value,value_source_value
+The MEASUREMENT table contains records of Measurement, i.e. structured values (numerical or categorical) obtained through systematic and standardized examination or testing of a Person or Person's sample. The MEASUREMENT table contains both orders and results of such Measurements as laboratory tests, vital signs, quantitative findings from pathology reports, etc.
+
 observation - observation_id,person_id,observation_concept_id,observation_date,observation_time,observation_type_concept_id,value_as_number,value_as_string,value_as_concept_id,qualifier_concept_id,unit_concept_id,provider_id,visit_occurrence_id,observation_source_value,observation_source_concept_id,unit_source_value,qualifier_source_value
+The OBSERVATION table captures clinical facts about a Person obtained in the context of examination, questioning or a procedure. Any data that cannot be represented by any other domains, such as social and lifestyle facts, medical history, family history, etc. are recorded here.
+
 observation_period - observation_period_id,person_id,observation_period_start_date,observation_period_end_date,period_type_concept_id
+The OBSERVATION_PERIOD table contains records which uniquely define the spans of time for which a Person is at-risk to have clinical events recorded within the source systems, even if no events in fact are recorded (healthy patient with no healthcare interactions).
+
 payer_plan_period - payer_plan_period_id,person_id,payer_plan_period_start_date,payer_plan_period_end_date,payer_source_value,plan_source_value,family_source_value
+The PAYER_PLAN_PERIOD table captures details of the period of time that a Person is continuously enrolled under a specific health Plan benefit structure from a given Payer. Each Person receiving healthcare is typically covered by a health benefit plan, which pays for (fully or partially), or directly provides, the care. These benefit plans are provided by payers, such as health insurances or state or government agencies. In each plan the details of the health benefits are defined for the Person or her family, and the health benefit Plan might change over time typically with increasing utilization (reaching certain cost thresholds such as deductibles), plan availability and purchasing choices of the Person. The unique combinations of Payer organizations, health benefit Plans and time periods in which they are valid for a Person are recorded in this table.
+
 person - person_id,gender_concept_id,year_of_birth,month_of_birth,day_of_birth,time_of_birth,race_concept_id,ethnicity_concept_id,location_id,provider_id,care_site_id,person_source_value,gender_source_value,gender_source_concept_id,race_source_value,race_source_concept_id,ethnicity_source_value,ethnicity_source_concept_id
+The Person Domain contains records that uniquely identify each patient in the source data who is time at-risk to have clinical observations recorded within the source systems.
+
 procedure_cost - procedure_cost_id,procedure_occurrence_id,currency_concept_id,paid_copay,paid_coinsurance,paid_toward_deductible,paid_by_payer,paid_by_coordination_benefits,total_out_of_pocket,total_paid,revenue_code_concept_id,payer_plan_period_id,revenue_code_source_value
+The PROCEDURE_COST table captures the cost of a Procedure performed on a Person. The information about the cost is only derived from the amounts paid for the Procedure. This is in contrast to the Drug Cost data which also contain information about true amount charged by the distributor. In addition, Revenue codes are captured.
+
 procedure_occurrence - procedure_occurrence_id,person_id,procedure_concept_id,procedure_date,procedure_type_concept_id,modifier_concept_id,quantity,provider_id,visit_occurrence_id,procedure_source_value,procedure_source_concept_id,qualifier_source_value
+The PROCEDURE_OCCURRENCE tabe contains records of activities or processes ordered by, or carried out by, a healthcare provider on the patient to have a diagnostic or therapeutic purpose. Procedures are present in various data sources in different forms with varying levels of standardization
+
 provider - provider_id,provider_name,NPI,DEA,specialty_concept_id,care_site_id,year_of_birth,gender_concept_id,provider_source_value,specialty_source_value,specialty_source_concept_id,gender_source_value,gender_source_concept_id
+The PROVIDER table contains a list of uniquely identified healthcare providers. These are individuals providing hands-on healthcare to patients, such as physicians, nurses, midwives, physical therapists etc.
+
 specimen - specimen_id,person_id,specimen_concept_id,specimen_type_concept_id,specimen_date,specimen_time,quantity,unit_concept_id,anatomic_site_concept_id,disease_status_concept_id,specimen_source_id,specimen_source_value,unit_source_value,anatomic_site_source_value,disease_status_source_value
+The specimen domain contains the records identifying biological samples from a person.
+
 visit_cost - visit_cost_id,visit_occurrence_id,currency_concept_id,paid_copay,paid_coinsurance,paid_toward_deductible,paid_by_payer,paid_by_coordination_benefits,total_out_of_pocket,total_paid,payer_plan_period_id
+The VISIT_COST table captures the cost of a Visit of a Person not itemized to specific procedures, drugs, or devices used during the Visit.
+
 visit_occurrence - visit_occurrence_id,person_id,visit_concept_id,visit_start_date,visit_start_time,visit_end_date,visit_end_time,visit_type_concept_id,provider_id,care_site_id,visit_source_value,visit_source_concept_id
+The VISIT_OCCURRENCE table contains the spans of time a Person continuously receives medical services from one or more providers at a Care Site in a given setting within the health care system. Visits are classified into 4 settings: outpatient care, inpatient confinement, emergency room, and long-term care. Persons may transition between these settings over the course of an episode of care (for example, treatment of a disease onset).
