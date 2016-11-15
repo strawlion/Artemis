@@ -11,8 +11,7 @@ import org.apache.spark.sql._
 import utils.NumberUtils
 
 @Singleton
-class DataController @Inject() (personRepo: PersonRepo,
-                                observationRepo: ObservationRepo) extends Controller {
+class DataController @Inject() (personRepo: PersonRepo) extends Controller {
 
   get("/") { request: Request =>
     "<h1>Hello, world!</h1>"
@@ -37,12 +36,13 @@ class DataController @Inject() (personRepo: PersonRepo,
 
   get("/observations/:personId") { request: Request =>
     val personId = NumberUtils.toLong(request.params("personId"))
-    observationRepo.observation.filter("person_id == " + personId.get).collect.map(observationRepo.toObservation)
+    ObservationRepo.fastObservation.filter(row => NumberUtils.toLong(row.get(1).asInstanceOf[String]).get == personId.get)
+    //    ObservationRepo.observation.filter("person_id == " + personId.get).collect.map(ObservationRepo.toObservation)
   }
 
   get("/observation-periods/:personId") { request: Request =>
     val personId = NumberUtils.toLong(request.params("personId"))
-    observationRepo.observation.filter("person_id == " + personId.get).collect.map(observationRepo.toObservation)
+    ObservationRepo.observation.filter("person_id == " + personId.get).collect.map(ObservationRepo.toObservation)
   }
 
 }

@@ -6,8 +6,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 
 
-@Singleton
-class DataService {
+object DataService {
   val spark = SparkSession
               .builder()
               .appName("Artemis")
