@@ -1,14 +1,25 @@
 package utils
 
+import org.apache.spark.rdd.RDD
 import org.apache.spark.sql._
 
 object CsvUtils {
 
-//    def loadCSVAsTable(sqlContext: SQLContext, path: String, tableName: String): DataFrame = {
-//      val data = sqlContext.csvFile(path)
-//      data.registerTempTable(tableName)
-//      data
-//    }
+    def getRdd(sparkSession: SparkSession, path: String): RDD[Row] = {
+      sparkSession.read
+        .format("csv")
+        .option("header", "true")
+        .option("nullValue", "")
+        .csv(path)
+        .rdd
+    }
+  def getDataframe(sparkSession: SparkSession, path: String): Dataset[Row] = {
+    sparkSession.read
+      .format("csv")
+      .option("header", "true")
+      .option("nullValue", "")
+      .csv(path)
+  }
 //
 //    def loadCSVAsTable(sqlContext: SQLContext, path: String): DataFrame = {
 //      loadCSVAsTable(sqlContext, path, inferTableNameFromPath(path))
