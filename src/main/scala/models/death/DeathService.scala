@@ -8,13 +8,16 @@ import utils.{CsvUtils, NumberUtils}
 
 
 @Singleton
-class DeathRepo extends java.io.Serializable  {
+class DeathService {
 
-  val death = CsvUtils.getDataframe(DataService.spark, "models/death.csv").cache
+  def findByPersonId(personId: Long): Death = {
+    val deaths = death.filter("person_id == " + personId).collect.map(toDeath)
+    return if (deaths.nonEmpty) deaths.head else null
+  }
 
-  def toDeath(row: Row): Death = {
+  private val death = CsvUtils.writeParquetFromCsv(DataService.spark, "data/death.csv", "data/parquet/death.parquet", false).cache
 
-    return Death(
+  private val toDeath = (row: Row) => Death(
       NumberUtils.toLong(row.get(0).asInstanceOf[String]).get,
       DateTime.parse(row.get(1).asInstanceOf[String]),
       NumberUtils.toLong(row.get(2).asInstanceOf[String]).get,
@@ -22,5 +25,4 @@ class DeathRepo extends java.io.Serializable  {
       Option(row.get(4).asInstanceOf[String]),
       NumberUtils.toLong(row.get(5).asInstanceOf[String])
     )
-  }
 }

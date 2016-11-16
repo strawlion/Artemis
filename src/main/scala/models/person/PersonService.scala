@@ -7,14 +7,16 @@ import utils.{CsvUtils, NumberUtils}
 
 
 @Singleton
-class PersonRepo extends java.io.Serializable {
-  import DataService.spark.implicits._
-  val person = CsvUtils.getDataframe(DataService.spark, "models/person.csv").cache
-//  val person = personFast.rdd.map(toPerson)
+class PersonService extends java.io.Serializable {
 
+  def findByPersonId(personId: Long): Person = {
+    val persons = person.filter("person_id == " + personId).collect.map(toPerson)
+    return if (persons.nonEmpty) persons.head else null
+  }
 
-  def toPerson(row: Row): Person = {
-    return Person(
+  private val person = CsvUtils.writeParquetFromCsv(DataService.spark, "data/person.csv", "data/parquet/person.parquet", false).cache
+
+  private val toPerson = (row: Row) => Person(
       NumberUtils.toLong(row.get(0).asInstanceOf[String]).get,
       NumberUtils.toLong(row.get(1).asInstanceOf[String]).get,
       NumberUtils.toLong(row.get(2).asInstanceOf[String]).get,
@@ -34,6 +36,5 @@ class PersonRepo extends java.io.Serializable {
       Option(row.get(16).asInstanceOf[String]),
       NumberUtils.toLong(row.get(17).asInstanceOf[String])
     )
-  }
 
 }

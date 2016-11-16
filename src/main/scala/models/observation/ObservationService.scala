@@ -6,14 +6,16 @@ import org.apache.spark.sql._
 import org.joda.time.DateTime
 import utils.{CsvUtils, NumberUtils}
 
-object ObservationRepo extends java.io.Serializable  {
+@Singleton
+class ObservationService {
 
-  private val rawObservation = CsvUtils.getDataframe(DataService.spark, "models/observation.csv")
-  val observation = rawObservation.repartition(rawObservation("person_id")).cache
-  val fastObservation = observation.rdd.mapPartitionsWithIndex((index, iterator) => if (index == 0) iterator else Iterator()).cache
+  def findByPersonId(personId: Long): Array[Observation] = {
+      observation.filter("person_id == " + personId).collect.map(toObservation)
+  }
 
-  def toObservation(row: Row): Observation = {
-    return Observation(
+  private val observation = CsvUtils.writeParquetFromCsv(DataService.spark, "data/observation.csv", "data/parquet/observation.parquet", false).cache
+
+  private val toObservation = (row: Row) => Observation(
       NumberUtils.toLong(row.get(0).asInstanceOf[String]).get,
       NumberUtils.toLong(row.get(1).asInstanceOf[String]).get,
       NumberUtils.toLong(row.get(2).asInstanceOf[String]).get,
@@ -32,6 +34,6 @@ object ObservationRepo extends java.io.Serializable  {
       Option(row.get(15).asInstanceOf[String]),
       Option(row.get(16).asInstanceOf[String])
     )
-  }
+
 
 }

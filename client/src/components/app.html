@@ -1,28 +1,8 @@
 <template>
-  <script
-  src="https://code.jquery.com/jquery-3.1.1.js"
-  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
-  crossorigin="anonymous"></script>
   <require from="materialize-css/css/materialize.css"></require>
-  <require from="./person-table/person-table"></require>
-  <require from="./common/collapsible/collapsible"></require>
-  <require from="./common/collapsible/collapsible-row/collapsible-row"></require>
+  <require from="./person-view/person-view"></require>
 
   <h1>${message}</h1>
-  <person-row person.bind="persons[0]"></person-row>
+  <person-view></person-view>
 
-  <collapsible>
-    <li>
-        <div class="collapsible-header">Test One</div>
-        <div class="collapsible-body">Test One</div>
-    </li>
-    <li>
-        <div class="collapsible-header">Test Two</div>
-        <div class="collapsible-body">Test Two</div>
-    </li>
-  </collapsible>
-
-<!--<collapsible-row>TEST SINGLE</collapsible-row>-->
-    <!--<collapsible-row header="One">Test One</collapsible-row>
-    <collapsible-row header="Two">Test Two</collapsible-row>-->
 </template>

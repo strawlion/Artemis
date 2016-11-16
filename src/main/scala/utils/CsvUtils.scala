@@ -1,34 +1,31 @@
 package utils
 
+import java.nio.file.{Paths, Files}
+
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql._
 
 object CsvUtils {
 
     def getRdd(sparkSession: SparkSession, path: String): RDD[Row] = {
+      getDataframe(sparkSession, path).rdd
+    }
+
+    def getDataframe(sparkSession: SparkSession, path: String): Dataset[Row] = {
       sparkSession.read
         .format("csv")
         .option("header", "true")
         .option("nullValue", "")
         .csv(path)
-        .rdd
     }
-  def getDataframe(sparkSession: SparkSession, path: String): Dataset[Row] = {
+
+  def writeParquetFromCsv(sparkSession: SparkSession, csvPath: String, parquetPath: String, overwrite: Boolean): Dataset[Row] = {
+    val shouldWriteFile = !Files.exists(Paths.get(parquetPath)) || overwrite
+    if (shouldWriteFile) {
+      getDataframe(sparkSession, csvPath).write.parquet(parquetPath)
+    }
     sparkSession.read
-      .format("csv")
-      .option("header", "true")
-      .option("nullValue", "")
-      .csv(path)
+      .parquet(parquetPath)
   }
-//
-//    def loadCSVAsTable(sqlContext: SQLContext, path: String): DataFrame = {
-//      loadCSVAsTable(sqlContext, path, inferTableNameFromPath(path))
-//    }
-//
-//    private val pattern = "(\\w+)(\\.csv)?$".r.unanchored
-//    def inferTableNameFromPath(path: String) = path match {
-//      case pattern(filename, extension) => filename
-//      case _ => path
-//    }
 
 }

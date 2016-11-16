@@ -11,6 +11,5 @@ object DataService {
               .builder()
               .appName("Artemis")
               .master("local")
-//              .config("spark.sql.shuffle.partitions", "1")
               .getOrCreate()
 }
