@@ -3,9 +3,9 @@ package web
 import com.google.inject.{Inject, Singleton}
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
-import data.DataService
-import data.observation.{ObservationRepo, Observation}
-import data.person.{Person, PersonRepo}
+import models.DataService
+import models.observation.{ObservationRepo, Observation}
+import models.person.{Person, PersonRepo}
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql._
 import utils.NumberUtils

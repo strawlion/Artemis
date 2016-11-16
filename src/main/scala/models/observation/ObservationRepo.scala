@@ -1,17 +1,17 @@
-package data.observation
+package models.observation
 
 import com.google.inject.{Inject, Singleton}
-import data.DataService
+import models.DataService
 import org.apache.spark.sql._
 import org.joda.time.DateTime
 import utils.{CsvUtils, NumberUtils}
 
 object ObservationRepo extends java.io.Serializable  {
 
-  private val rawObservation = CsvUtils.getDataframe(DataService.spark, "data/observation.csv")
+  private val rawObservation = CsvUtils.getDataframe(DataService.spark, "models/observation.csv")
   val observation = rawObservation.repartition(rawObservation("person_id")).cache
   val fastObservation = observation.rdd.mapPartitionsWithIndex((index, iterator) => if (index == 0) iterator else Iterator()).cache
-  
+
   def toObservation(row: Row): Observation = {
     return Observation(
       NumberUtils.toLong(row.get(0).asInstanceOf[String]).get,

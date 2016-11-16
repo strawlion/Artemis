@@ -1,8 +1,8 @@
-package data.observationperiod
+package models.observationperiod
 
 import com.google.inject.{Inject, Singleton}
-import data.DataService
-import data.observation.Observation
+import models.DataService
+import models.observation.Observation
 import org.apache.spark.sql.Row
 import org.joda.time.DateTime
 import utils.{NumberUtils, CsvUtils}
@@ -10,7 +10,7 @@ import utils.{NumberUtils, CsvUtils}
 @Singleton
 class ObservationPeriodRepo extends java.io.Serializable  {
 
-  val observationPeriod = CsvUtils.getDataframe(DataService.spark, "data/observation_period.csv").cache
+  val observationPeriod = CsvUtils.getDataframe(DataService.spark, "models/observation_period.csv").cache
 //  val observationPeriod = observationPeriodFast.rdd.map(toObservationPeriod)
 
   def toObservationPeriod(row: Row): ObservationPeriod = {

@@ -1,4 +1,4 @@
-package data.death
+package models.death
 
 import org.joda.time.DateTime
 

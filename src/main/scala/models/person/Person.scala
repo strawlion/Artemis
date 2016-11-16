@@ -1,4 +1,4 @@
-package data.person
+package models.person
 
 case class Person(
   personId: Long,

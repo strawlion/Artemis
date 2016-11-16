@@ -1,7 +1,7 @@
-package data.death
+package models.death
 
 import com.google.inject.{Inject, Singleton}
-import data.DataService
+import models.DataService
 import org.apache.spark.sql.Row
 import org.joda.time.DateTime
 import utils.{CsvUtils, NumberUtils}
@@ -10,7 +10,7 @@ import utils.{CsvUtils, NumberUtils}
 @Singleton
 class DeathRepo extends java.io.Serializable  {
 
-  val death = CsvUtils.getDataframe(DataService.spark, "data/death.csv").cache
+  val death = CsvUtils.getDataframe(DataService.spark, "models/death.csv").cache
 
   def toDeath(row: Row): Death = {
 

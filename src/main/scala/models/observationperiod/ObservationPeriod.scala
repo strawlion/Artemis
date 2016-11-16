@@ -1,4 +1,4 @@
-package data.observationperiod
+package models.observationperiod
 
 import org.joda.time.DateTime
 

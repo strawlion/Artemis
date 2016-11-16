@@ -1,4 +1,4 @@
-package data
+package models
 
 import com.google.inject.Singleton
 import org.apache.spark.sql.{SparkSession, SQLContext}

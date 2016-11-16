@@ -1,7 +1,7 @@
-package data.person
+package models.person
 
 import com.google.inject.{Inject, Singleton}
-import data.DataService
+import models.DataService
 import org.apache.spark.sql._
 import utils.{CsvUtils, NumberUtils}
 
@@ -9,7 +9,7 @@ import utils.{CsvUtils, NumberUtils}
 @Singleton
 class PersonRepo extends java.io.Serializable {
   import DataService.spark.implicits._
-  val person = CsvUtils.getDataframe(DataService.spark, "data/person.csv").cache
+  val person = CsvUtils.getDataframe(DataService.spark, "models/person.csv").cache
 //  val person = personFast.rdd.map(toPerson)
 
 

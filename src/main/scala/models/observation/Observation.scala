@@ -1,4 +1,4 @@
-package data.observation
+package models.observation
 
 import org.joda.time.DateTime
 

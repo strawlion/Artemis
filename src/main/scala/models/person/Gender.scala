@@ -1,4 +1,4 @@
-package data.person
+package models.person
 
 class Gender extends Enumeration {
     type Gender = Value
