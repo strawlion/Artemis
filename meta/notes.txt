@@ -1,5 +1,4 @@
 Data Tables
-http://www.ohdsi.org/web/wiki/doku.php?id=documentation:cdm:standardized_clinical_data_tables
 
 care_site - care_site_id,care_site_name,place_of_service_concept_id,location_id,care_site_source_value,place_of_service_source_value
 The CARE_SITE table contains a list of uniquely identified institutional (physical or organizational) units where healthcare delivery is practiced (offices, wards, hospitals, clinics, etc.).
@@ -58,3 +57,47 @@ The VISIT_COST table captures the cost of a Visit of a Person not itemized to sp
 
 visit_occurrence - visit_occurrence_id,person_id,visit_concept_id,visit_start_date,visit_start_time,visit_end_date,visit_end_time,visit_type_concept_id,provider_id,care_site_id,visit_source_value,visit_source_concept_id
 The VISIT_OCCURRENCE table contains the spans of time a Person continuously receives medical services from one or more providers at a Care Site in a given setting within the health care system. Visits are classified into 4 settings: outpatient care, inpatient confinement, emergency room, and long-term care. Persons may transition between these settings over the course of an episode of care (for example, treatment of a disease onset).
+
+
+Resources
+http://www.ohdsi.org/web/wiki/doku.php?id=documentation:cdm:standardized_clinical_data_tables
+https://www.safaribooksonline.com/library/view/learning-spark/9781449359034/ch04.html
+http://stackoverflow.com/questions/32517976/how-to-get-data-from-a-specific-partition-in-spark-rdd
+http://dustindavis.me/aurelia-accordion-component-from-scratch/
+
+Backend Structure
+    repos for each OMOP CDM table
+    
+    STRETCH
+    Need to generate a secondary dataset keyed by personId. Need to access specific partition/person immediately.
+    These can either be standalone json files or large 
+
+UI Structure
+
+Sidebar
+    NOTES 
+    Allowing the user to view data from a different context (from perspective of patient (default patient view), from perspective of observations)
+    
+    
+    Search - Allow filtering for a specific person
+    List of Persons
+        NOTES
+            Get Full timerange (maybe using observation period, or just bounds of data).
+            Visualize each type of data along this timeline, different color for each row
+            Allow selecting the event on the timeline which will bring up additional info below the timeline.
+            Fetching data quickly will be difficult without custom partitioning on patientId, use small 
+            subset for testing (first 100 patients)
+            Each person is a card with title being patientId, anonymized name, observation period, perhaps death
+        DATA
+            observations
+            procedure_occurrence
+                procedure cost
+            measurement_occurence
+            condition_occurrence
+            visit_occurrence
+                visit_cost
+            death
+            
+            STRETCH
+            observation periods
+        

@@ -1,0 +1,6 @@
+<template>
+    <require from="../person-row/person-row"></require>
+    <div class="person-row-container">
+        <person-row repeat.for="person of persons" person.bind="person"></person-row>
+    </div>
+</template>

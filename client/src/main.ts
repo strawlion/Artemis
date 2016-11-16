@@ -12,7 +12,8 @@ import environment from './environment';
 export function configure(aurelia: Aurelia) {
   aurelia.use
     .standardConfiguration()
-    .feature('resources');
+    .feature('resources')
+    .plugin('aurelia-materialize-bridge', bridge => bridge.useAll());
 
   if (environment.debug) {
     aurelia.use.developmentLogging();
@@ -22,5 +23,5 @@ export function configure(aurelia: Aurelia) {
     aurelia.use.plugin('aurelia-testing');
   }
 
-  aurelia.start().then(() => aurelia.setRoot());
+  aurelia.start().then(() => aurelia.setRoot('components/app'));
 }

@@ -7,6 +7,10 @@ bower_components
 .idea
 .DS_STORE
 build/reports
+client/scripts
+client/scripts/
+scripts/
+scripts
 
 # Simple Build Tool
 # http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
