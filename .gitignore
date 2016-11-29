@@ -1,6 +1,16 @@
 data/
 
-# Aurelia
+# Client
+node_modules
+coverage
+build
+.DS_Store
+.env
+npm-debug.log
+yarn.lock
+
+
+# Old Client- Aurelia
 node_modules
 jspm_packages
 bower_components
@@ -11,6 +21,7 @@ client/scripts
 client/scripts/
 scripts/
 scripts
+client_old
 
 # Simple Build Tool
 # http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
