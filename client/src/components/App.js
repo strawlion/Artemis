@@ -10,7 +10,7 @@ export default function App() {
   return (
     <div className="App" style={{ background: 'rgba(235,238,241,.85)', width: '100%', height: '100%', display: 'flex', position: 'absolute' }}>
       <Sidebar />
-      <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="person-view">
         <PersonView />
       </div>
     </div>

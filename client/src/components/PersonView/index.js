@@ -3,23 +3,42 @@ import { connect } from 'react-redux'
 import PersonTable from './PersonTable';
 import PersonFilter from './PersonFilter';
 
-import * as formatUtils from '../../utils/formatUtils';
+import api from '../../utils/api';
+import actions from '../../state/actions';
 
-export default connect(mapStateToProps)(PersonView);
+class PersonView extends React.Component {
+    constructor({ persons, onPersonsFetched }) {
+        super();
+        api.getPersons()
+            .then(onPersonsFetched);
+    }
 
-function PersonView({ persons, onTextChanged }) {
-
-    return (
-        <div style={{ width: '75%' }}>
-            <PersonFilter />
-            <PersonTable persons={ persons } />
-        </div>
-  );
+    render() {
+        const { persons, onPersonsFetched } = this.props;
+        return (
+            <div style={{ width: '75%' }}>
+                <PersonFilter />
+                <PersonTable persons={ persons } />
+            </div>
+    );
+ }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(PersonView);
 
 
 function mapStateToProps(state) {
   return {
-      persons: formatUtils.getMockPersons(),
+      persons: state.persons,
   };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+      onPersonsFetched,
+  };
+
+  function onPersonsFetched(persons) {
+      dispatch(actions.personsChanged(persons));
+  }
 }

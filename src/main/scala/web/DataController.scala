@@ -22,6 +22,10 @@ class DataController @Inject() (personService: PersonService,
     "<h1>Hello, world!</h1>"
   }
 
+  get("/person") { request: Request =>
+    personService.findWithLimit(1)
+  }
+
   get("/person/:personId") { request: Request =>
     val personId = NumberUtils.toLong(request.params("personId")).get
     personService.findByPersonId(personId)

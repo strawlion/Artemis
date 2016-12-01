@@ -1,76 +1,11 @@
-import moment from 'moment';
-
 export {
-    getPerson,
     getMockPersons,
 };
 
-const genderConceptIdToGender = {
-  8532: 'Female',
-  8507: 'Male',
-};
-
-// The way it works is this: The race field contains races and ethnic backgrounds, while for Ethnicity there are only two categories for data on ethnicity: “Hispanic or Latino” (concept_id=38003563) and “Not Hispanic or Latino” (concept_id=38003564). This means, the two categories are orthogonal to each other, and both Latinos and non-Latinos can have any racial or ethnic background.
-const ethnicityConceptIdToEthnicity = {
-    38003563: 'Hispanic or Latino',
-    38003564: 'Not Hispanic or Latino',
-}
-
-const raceConceptIdToEthnicity = {
-    8515: 'Asian',
-    8516: 'Black',
-    8522: 'Other/Unknown/Multiracial',
-    8527: 'White',
-    8552: 'Undetermined',
-    8557: 'Pacific Islander',
-    8558: 'Hispanic',
-    8657: 'American Indian/Alaska Native',
-    9178: 'Non-White',
-}
-
-
-function getPerson(rawPerson) {
-
-  return {
-    id: rawPerson.person.person_id,
-    name: `Anonymous ${rawPerson.person.person_id}`,
-    gender: genderConceptIdToGender[rawPerson.person.gender_concept_id] || 'Unknown',
-    isDead: !!rawPerson.death,
-    dateOfBirth: moment().year(rawPerson.person.year_of_birth)
-                        .month(rawPerson.person.month_of_birth)
-                        .day(rawPerson.person.day_of_birth),
-    race: raceConceptIdToEthnicity[rawPerson.person.race_concept_id] || 'Unknown',
-    ethnicity: ethnicityConceptIdToEthnicity[rawPerson.person.ethnicity_concept_id] || 'Unknown',
-    location: rawPerson.person.location_id, // TODO:
-    observations: rawPerson.observations.map(toObservation).sort((a, b) => a.date.unix() - b.date.unix()),
-    observationPeriods: rawPerson.observationPeriods.map(toObservationPeriod).sort((a, b) => a.startDate.unix() - b.startDate.unix()),
-  };
-}
-
-
-function toObservation(rawObservation) {
-  return {
-    id: rawObservation.observation_id,
-    date: moment(rawObservation.observation_time),
-    valueAsConceptId: rawObservation.value_as_concept_id,
-    providerId: rawObservation.provider_id,
-    visitOccurrenceId: rawObservation.visit_occurrence_id,
-    observationSourceValue: rawObservation.observation_source_value,
-    observationSourceConceptId: rawObservation.observation_source_concept_id,
-  };
-}
-
-function toObservationPeriod(rawObservationPeriod) {
-  return {
-    id: rawObservationPeriod.observation_period_id,
-    startDate: moment(rawObservationPeriod.observation_period_start_time),
-    endDate: moment(rawObservationPeriod.observation_period_end_time),
-  };
-}
 
 function getMockPersons() {
     return [
-        getPerson(getRawMockPerson208())
+        getRawMockPerson208()
     ];
 }
 

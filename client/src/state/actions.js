@@ -1,5 +1,7 @@
 import ActionType from './ActionType';
 
 export default {
-    searchTextChanged: searchText => ({ type: ActionType.SEARCH_TEXT_CHANGED, searchText }),
+    filterChanged: (category, id) => ({ type: ActionType.FILTER_CHANGED, category, id }),
+    personsChanged: persons => ({ type: ActionType.PERSONS_CHANGED, persons }),
+    personUpdated: person => ({ type: ActionType.PERSON_UPDATED, person }),
 };

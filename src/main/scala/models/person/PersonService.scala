@@ -14,6 +14,10 @@ class PersonService extends java.io.Serializable {
     return if (persons.nonEmpty) persons.head else null
   }
 
+  def findWithLimit(limit: Int): Array[Person] = {
+    return person.limit(limit).collect.map(toPerson)
+  }
+
   private val person = CsvUtils.writeParquetFromCsv(DataService.spark, "data/person.csv", "data/parquet/person.parquet", false).cache
 
   private val toPerson = (row: Row) => Person(
