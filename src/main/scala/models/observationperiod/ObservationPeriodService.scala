@@ -7,16 +7,18 @@ import org.apache.spark.sql.Row
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.DateTimeFormat
-import utils.{NumberUtils, CsvUtils}
+import utils.{PartitionUtils, NumberUtils, CsvUtils}
 
 @Singleton
 class ObservationPeriodService {
 
   def findByPersonId(personId: Long): Array[ObservationPeriod] = {
-    observationPeriod.filter("person_id == " + personId).collect.map(toObservationPeriod)
+    observationPeriod.filter("partition_id == " + PartitionUtils.getPartitionId(personId) + " AND person_id == " + personId)
+                    .collect
+                    .map(toObservationPeriod)
   }
 
-  private val observationPeriod = CsvUtils.writeParquetFromCsv(DataService.spark, "data/observation_period.csv", "data/parquet/observation_period.parquet", false).cache
+  private val observationPeriod = CsvUtils.writeParquetFromCsv(DataService.spark, "data/observation_period.csv", "data/parquet/observation_period.parquet", false)
   private val dateFormatter = DateTimeFormat.forPattern("yyyyMMDD")
   private val toObservationPeriod = (row: Row) => ObservationPeriod(
       NumberUtils.toLong(row.get(0).asInstanceOf[String]).get,

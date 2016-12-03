@@ -16,4 +16,5 @@ object NumberUtils {
       case e: Exception => null
     }
   }
+
 }

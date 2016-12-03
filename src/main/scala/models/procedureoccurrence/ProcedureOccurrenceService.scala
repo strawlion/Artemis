@@ -5,16 +5,18 @@ import models.DataService
 import models.person.Person
 import org.apache.spark.sql.Row
 import org.joda.time.DateTime
-import utils.{CsvUtils, NumberUtils}
+import utils.{PartitionUtils, CsvUtils, NumberUtils}
 
 @Singleton
 class ProcedureOccurrenceService {
 
   def findByPersonId(personId: Long): Array[ProcedureOccurrence] = {
-    procedureOccurrence.filter("person_id == " + personId).collect.map(toProcedureOccurrence)
+    procedureOccurrence.filter("partition_id == " + PartitionUtils.getPartitionId(personId) + " AND person_id == " + personId)
+                      .collect
+                      .map(toProcedureOccurrence)
   }
 
-  private val procedureOccurrence = CsvUtils.writeParquetFromCsv(DataService.spark, "data/procedure_occurrence.csv", "data/parquet/procedure_occurrence.parquet", false).cache
+  private val procedureOccurrence = CsvUtils.writeParquetFromCsv(DataService.spark, "data/procedure_occurrence.csv", "data/parquet/procedure_occurrence.parquet", false)
 
   private val toProcedureOccurrence = (row: Row) => ProcedureOccurrence(
       NumberUtils.toLong(row.get(0).asInstanceOf[String]).get,

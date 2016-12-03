@@ -1,5 +1,7 @@
 package models.person
 
+import org.joda.time.DateTime
+
 case class Person(
   personId: Long,
   genderConceptId: Long,
@@ -18,6 +20,7 @@ case class Person(
   raceSourceValue: Option[String],
   raceSourceConceptId: Option[Long],
   ethnicitySourceValue: Option[String],
-  ethnicitySourceConceptId: Option[Long]
+  ethnicitySourceConceptId: Option[Long],
+  deathDate: Option[DateTime]
 )
 

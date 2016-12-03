@@ -1,0 +1,36 @@
+.person-detail {
+}
+
+.person-detail-title {
+    font-size: 11px;
+    color: #bdbdbd;
+}
+
+.person-detail-value {
+    white-space: pre-line;
+}
+
+.collapsible-body {
+    background: white;
+}
+
+.person-details-container {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.person-details-top-container, .person-details-bottom-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.person-details-bottom-container {
+    padding-top: 10px;
+}
+
+.person-detail-observations-value {
+    text-align: left;
+    max-height: 300px;
+    overflow: auto;
+}

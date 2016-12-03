@@ -16,6 +16,3 @@ export default function App() {
     </div>
   );
 }
-
-// <div className="content" style={{ position: 'absolute', bottom: '10px', top: '10px', right: '10px', left: '210px', background: 'white', border: 'solid 1px #dfe0e4' }}>
-      // </div>

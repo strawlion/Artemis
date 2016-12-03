@@ -4,22 +4,23 @@ export default {
 };
 
 
-async function getPersons() {
-    return GET('/person');
+async function getPersons(filters, page) {
+    const filterSegments = filters ? Object.keys(filters).map(categoryId => categoryId + '=' + filters[categoryId]) : [];
+    const pageSegment = page != null ? 'page=' + page : null;
+    const queryString = '?' + [...filterSegments, pageSegment].join('&');
+    return GET(`/person${queryString}`);
 }
 
 async function getPersonById(personId) {
     // TODO: Remove person here
-    const [person, death, observations, observationPeriods] = await Promise.all([
+    const [person, observations, observationPeriods] = await Promise.all([
         GET(`/person/${personId}`),
-        GET(`/death/${personId}`),
         GET(`/observation/${personId}`),
         GET(`/observation-period/${personId}`)
     ]);
 
     return {
         person,
-        death,
         observations,
         observationPeriods,
     };

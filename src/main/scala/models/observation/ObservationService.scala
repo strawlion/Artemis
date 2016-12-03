@@ -4,16 +4,18 @@ import com.google.inject.{Inject, Singleton}
 import models.DataService
 import org.apache.spark.sql._
 import org.joda.time.DateTime
-import utils.{CsvUtils, NumberUtils}
+import utils.{PartitionUtils, CsvUtils, NumberUtils}
 
 @Singleton
 class ObservationService {
 
   def findByPersonId(personId: Long): Array[Observation] = {
-      observation.filter("person_id == " + personId).collect.map(toObservation)
+      observation.filter("partition_id == " + PartitionUtils.getPartitionId(personId) + " AND person_id == " + personId)
+                  .collect
+                  .map(toObservation)
   }
 
-  private val observation = CsvUtils.writeParquetFromCsv(DataService.spark, "data/observation.csv", "data/parquet/observation.parquet", false).cache
+  private val observation = CsvUtils.writeParquetFromCsv(DataService.spark, "data/observation.csv", "data/parquet/observation.parquet", false)
 
   private val toObservation = (row: Row) => Observation(
       NumberUtils.toLong(row.get(0).asInstanceOf[String]).get,

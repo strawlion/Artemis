@@ -1,6 +1,4 @@
 import api from './api';
-window.api = api;
-
 
 const genderConceptIdToGender = {
   8532: 'Female',

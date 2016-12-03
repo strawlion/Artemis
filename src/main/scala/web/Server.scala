@@ -20,10 +20,3 @@ class Server extends HttpServer {
       .add[DataController]
   }
 }
-
-
-//class CorsController extends Controller {
-//  options("/api/:*") {
-//    _: Request => response.ok
-//  }
-//}

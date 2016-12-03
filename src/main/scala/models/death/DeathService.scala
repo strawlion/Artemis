@@ -4,18 +4,20 @@ import com.google.inject.{Inject, Singleton}
 import models.DataService
 import org.apache.spark.sql.Row
 import org.joda.time.DateTime
-import utils.{CsvUtils, NumberUtils}
+import utils.{PartitionUtils, CsvUtils, NumberUtils}
 
 
 @Singleton
 class DeathService {
 
   def findByPersonId(personId: Long): Death = {
-    val deaths = death.filter("person_id == " + personId).collect.map(toDeath)
+    val deaths = death.filter("partition_id == " + PartitionUtils.getPartitionId(personId) + " AND person_id == " + personId)
+                      .collect
+                      .map(toDeath)
     return if (deaths.nonEmpty) deaths.head else null
   }
 
-  private val death = CsvUtils.writeParquetFromCsv(DataService.spark, "data/death.csv", "data/parquet/death.parquet", false).cache
+  private val death = CsvUtils.writeParquetFromCsv(DataService.spark, "data/death.csv", "data/parquet/death.parquet", false)
 
   private val toDeath = (row: Row) => Death(
       NumberUtils.toLong(row.get(0).asInstanceOf[String]).get,

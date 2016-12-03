@@ -3,13 +3,25 @@ import moment from 'moment';
 import { genderConceptIdToGender, ethnicityConceptIdToEthnicity, raceConceptIdToEthnicity } from '../../utils/enums';
 
 
-export default function personsReducer(state = [], action) {
+export default function personsReducer(state = { isLoading: true, page: 0, value: [] }, action) {
     switch (action.type) {
         case 'PERSONS_CHANGED':
-            return action.persons.map(toNormalizedPerson);
+            return Object.assign({}, state, {
+                isLoading: false,
+                page: action.persons.length ? state.page + 1 : state.page,
+                value: action.persons.map(toNormalizedPerson)
+            });
         case 'PERSON_UPDATED':
             const newPerson = toFormattedPerson(action.person);
-            return state.slice().map(person => person.id === newPerson.id ? newPerson : person);
+            return Object.assign({}, state, {
+                value: state.value.slice().map(person => person.id === newPerson.id ? newPerson : person),
+            });
+        case 'FILTER_CHANGED':
+            return Object.assign({}, state, {
+                isLoading: true,
+                page: 0,
+                value: [],
+            });
         default:
             return state;
     }
@@ -18,7 +30,6 @@ export default function personsReducer(state = [], action) {
 
 
 function toFormattedPerson(rawPerson) {
-
     return Object.assign(
         toNormalizedPerson(rawPerson.person),
         {
@@ -29,11 +40,13 @@ function toFormattedPerson(rawPerson) {
 }
 
 function toNormalizedPerson(rawPerson) {
+    const gender = genderConceptIdToGender[rawPerson.gender_concept_id] || 'Unknown';
     return {
         id: rawPerson.person_id,
-        name: `Anonymous ${rawPerson.person_id}`,
-        gender: genderConceptIdToGender[rawPerson.gender_concept_id] || 'Unknown',
-        isDead: !!rawPerson.death,
+        name: `Anonymous ${gender} ${rawPerson.person_id}`,
+        gender,
+        isDead: !!rawPerson.death_date,
+        dateOfDeath: rawPerson.death_date ? moment(rawPerson.death_date) : null,
         dateOfBirth: moment().year(rawPerson.year_of_birth)
                             .month(rawPerson.month_of_birth)
                             .day(rawPerson.day_of_birth),

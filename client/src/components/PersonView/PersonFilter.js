@@ -1,7 +1,7 @@
 import './PersonFilter.css';
 import React from 'react';
 import { connect } from 'react-redux'
-import { Card, Chip } from 'react-materialize';
+import { Card, Chip, Button } from 'react-materialize';
 import * as d3 from 'd3';
 import * as chromatic from 'd3-scale-chromatic';
 
@@ -15,63 +15,74 @@ import { genderConceptIdToGender } from '../../utils/enums';
 const colorScale = d3.scaleOrdinal(chromatic.schemePastel1);
 export default connect(mapStateToProps, mapDispatchToProps)(PersonFilter)
 
-function PersonFilter({ onFilterChanged }) {
+function PersonFilter({ filters, onFilterChanged }) {
 
 
     const filterCategories = [
         {
             displayName: 'Gender',
+            id: 'genderId',
             options: getEnumValues(genderConceptIdToGender),
+        },
+        {
+            displayName: 'Status',
+            id: 'dead',
+            options: [
+                {
+                    id: false,
+                    displayName: 'Alive',
+                },
+                {
+                    id: true,
+                    displayName: 'Dead',
+                }
+            ],
         }
     ];
 
     return (
-        <Card className="person-filter">
+        <Card>
+            <div className="person-filter">
             {filterCategories.map(toFilterCategories)}
+            </div>
         </Card>
   );
 
     function toFilterCategories(category) {
         return (
-            <div key={category.displayName} className="filter-category">
+            <div key={category.id} className="filter-category">
                 <span>{category.displayName}</span>
-                {category.options.map(toFilterOptions)}
+                <div>{category.options.map(toFilterOptions)}</div>
             </div>
         );
 
         function toFilterOptions(option, index) {
+            const isSelected = filters[category.id] === option.id;
             return (
-                <span
+                <Button
                     key={option.id}
-                    className="filter-option"
-                    style={{ backgroundColor: colorScale(index) }}
-                    onClick={ () => onFilterChanged(category, option.id) }>{option.displayName}</span>
+                    className={"filter-option " + (isSelected ? 'selected' : '') }
+                    onClick={ () => onFilterChanged(category, option.id) }>{option.displayName}</Button>
             );
         }
     }
 
 
 
-
-
-  // Gender
-            // <Chip>Male></Chip>
 }
 
 function mapStateToProps(state) {
   return {
+       filters: state.filters,
       //searchText: state.searchText,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onFilterChanged,
+    // onFilterChanged,
   };
 
-  function onFilterChanged(category, value) {
-      dispatch(actions.filterChanged(category, value));
-  }
 }
 
 
