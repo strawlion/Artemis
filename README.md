@@ -27,3 +27,8 @@ Navigate to the client folder and run `npm install` to install client dependenci
 4) Start the client
 
 Start the client by running `npm start` from the client folder
+
+
+5) View the application
+
+Open the Chrome browser and navigate to `http://localhost:3000/`
