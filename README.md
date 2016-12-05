@@ -7,7 +7,7 @@ Add a CSV file representing each OMOP CDM v5 table (e.g. death.csv consisting of
 
 This folder should consist of `data/death.csv`, `data/person.csv` and so on for each OMOP table, as defined here http://www.ohdsi.org/web/wiki/doku.php?id=documentation:cdm:single-page
 
-For a comprehensive sample dataset, please use ftp://ftp.ohdsi.org/synpuf/synpuf_1.zip
+For a comprehensive sample dataset, please use ftp://ftp.ohdsi.org/synpuf/synpuf_1.zip. Note, you'll have to remove the trailing `_1` from the filenames (e.g. `death_1.csv` -> `death.csv`)
 
 **2) Start the server**
 
