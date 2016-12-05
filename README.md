@@ -2,7 +2,7 @@
 
 1) Add dataset
 
-Add a data folder to the project root, next to the src folder.
+Add a `data` folder to the project root, next to the `src` folder.
 Add a CSV file representing each OMOP CDM v5 table (e.g. death.csv consisting of person_id,death_date,death_type_concept_id,cause_concept_id,cause_source_value,cause_source_concept_id)
 For a good sample dataset, please use ftp://ftp.ohdsi.org/synpuf/synpuf_1.zip
 
