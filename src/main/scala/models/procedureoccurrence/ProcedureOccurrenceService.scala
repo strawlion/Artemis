@@ -20,7 +20,7 @@ class ProcedureOccurrenceService {
 
   private val toProcedureOccurrence = (row: Row) => ProcedureOccurrence(
       NumberUtils.toLong(row.get(0).asInstanceOf[String]).get,
-      NumberUtils.toLong(row.get(1).asInstanceOf[String]).get,
+      row.get(1).asInstanceOf[Long],
       NumberUtils.toLong(row.get(2).asInstanceOf[String]).get,
       DateTime.parse(row.get(3).asInstanceOf[String]),
       NumberUtils.toLong(row.get(4).asInstanceOf[String]).get,

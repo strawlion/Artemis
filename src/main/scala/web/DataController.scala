@@ -22,21 +22,9 @@ class DataController @Inject() (personService: PersonService,
 
   get("/person") { request: Request =>
 
-//    var persons = Array[Person]()
-//    if (request.containsParam("genderId")) {
-//      val genderId = NumberUtils.toLong(request.params("genderId")).get
-//      persons = personService.findByGenderIdWithLimit(genderId, 20)
-//    }
-//    else {
-//      persons = personService.findWithLimit(20)
-//    }
-
     var filters = Array[String]();
 
-//    if (request.containsParam("page")) {
-//      val page = NumberUtils.toLong(request.params("page")).get
-//      filters :+ "partition_id == " + page
-//    }
+
     if (request.containsParam("genderId")) {
       val genderId = NumberUtils.toLong(request.params("genderId")).get
       filters = filters :+ "gender_concept_id == " + genderId
@@ -45,6 +33,7 @@ class DataController @Inject() (personService: PersonService,
       val isDead = request.params("dead") == "true"
       filters = filters :+ "death_date " + (if (isDead) "IS NOT" else "IS") + " NULL"
     }
+
 
     personService.findByFilters(filters)
   }

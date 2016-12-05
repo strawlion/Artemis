@@ -5,6 +5,7 @@ import java.nio.file.{Paths, Files}
 import com.google.inject.{Inject, Singleton}
 import models.DataService
 import org.apache.spark.sql._
+import org.apache.spark.sql.types.IntegerType
 import org.joda.time.DateTime
 import utils.{PartitionUtils, CsvUtils, NumberUtils}
 
@@ -24,16 +25,9 @@ class PersonService extends java.io.Serializable {
     return person.limit(limit).collect.map(toPerson)
   }
 
-  def findByGenderIdWithLimit(genderId: Long, limit: Int): Array[Person] = {
-    return person.filter("gender_concept_id == " + genderId) .limit(limit).collect.map(toPerson)
-  }
-
   def findByFilters(filters: Array[String]): Array[Person] = {
-    if (filters.nonEmpty) {
-      return person.filter(filters.mkString(" AND ")).limit(20).collect.map(toPerson)
-    }
-
-    person.limit(20).collect.map(toPerson)
+    val filteredPersons = if (filters.nonEmpty) person.filter(filters.mkString(" AND ")) else person;
+    filteredPersons.limit(50).collect.map(toPerson)
   }
 
 
@@ -47,6 +41,7 @@ class PersonService extends java.io.Serializable {
       val death = CsvUtils.getDataframe(DataService.spark, "data/death.csv").select("person_id", "death_date")
       val person = CsvUtils.getDataframe(DataService.spark, "data/person.csv")
       val joinedPerson = person.join(death, Seq("person_id"), "left_outer")
+
       return CsvUtils.writeParquetFromDataFrame(DataService.spark, joinedPerson, parquetPath, false)
     }
 
@@ -54,7 +49,7 @@ class PersonService extends java.io.Serializable {
       .parquet(parquetPath)
   }
   private val toPerson = (row: Row) => Person(
-      NumberUtils.toLong(row.get(0).asInstanceOf[String]).get,
+      row.get(0).asInstanceOf[Long],
       NumberUtils.toLong(row.get(1).asInstanceOf[String]).get,
       NumberUtils.toLong(row.get(2).asInstanceOf[String]).get,
       NumberUtils.toLong(row.get(3).asInstanceOf[String]),

@@ -1,17 +1,26 @@
 import React from 'react';
 
+import './Sidebar.css'
+
 export default function Sidebar() {
     return (
-        <div className="sidebar" style={{ width: '230px', height: '100%', flex: '0 0 230px', }}>
-            <div style={{ marginTop: '20px' }}>
-                <span className="material-icons" style={{ color: '#fd5c63', verticalAlign: 'top', fontSize: '34px' }}>pie_chart</span>
-                <span style={{ fontSize: '26px', letterSpacing: '3px', fontWeight: 'bold', fontFamily: "'Ubuntu', Helvetica, Arial, sans-serif", marginLeft: '5px' }}>Artemis</span>
+        <div className="sidebar">
+            <div className="logo-container">
+                <span className="material-icons logo">pie_chart</span>
+                <span className="logo-text">Artemis</span>
             </div>
-            <ul style={{ color: '#a898b0', display: 'block', margin: '0 0 5px 5px', marginTop: '100px', fontSize: '13px', fontWeight: 400, }}>
+            <ul className="menu-category-container">
                 <li>
-                    <span>Perspective</span>
+                    <span>Visualize</span>
                     <ul>
-                        <li>Person</li>
+                        <li className="sub-category selected">
+                            <i className="fa fa-user sub-category-icon" aria-hidden="true"></i>
+                            <span>Person</span>
+                        </li>
+                        <li className="sub-category">
+                            <i className="fa fa-line-chart sub-category-icon" aria-hidden="true"></i>
+                            <span>Observations</span>
+                        </li>
                     </ul>
                 </li>
             </ul>

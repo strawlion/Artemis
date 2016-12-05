@@ -20,7 +20,7 @@ class DeathService {
   private val death = CsvUtils.writeParquetFromCsv(DataService.spark, "data/death.csv", "data/parquet/death.parquet", false)
 
   private val toDeath = (row: Row) => Death(
-      NumberUtils.toLong(row.get(0).asInstanceOf[String]).get,
+      row.get(0).asInstanceOf[Long],
       DateTime.parse(row.get(1).asInstanceOf[String]),
       NumberUtils.toLong(row.get(2).asInstanceOf[String]).get,
       NumberUtils.toLong(row.get(3).asInstanceOf[String]),

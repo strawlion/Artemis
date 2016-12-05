@@ -4,6 +4,7 @@ import java.nio.file.{Paths, Files}
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql._
+import org.apache.spark.sql.types.{LongType, IntegerType}
 
 object CsvUtils {
 
@@ -32,6 +33,7 @@ object CsvUtils {
     val shouldWriteFile = !Files.exists(Paths.get(parquetPath)) || overwrite
     if (shouldWriteFile) {
       dataframe
+        .withColumn("person_id", dataframe("person_id").cast(LongType))
         .sort("person_id")
         .withColumn("partition_id", getPartitionId(col("person_id")))
         .write

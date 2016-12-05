@@ -19,7 +19,7 @@ class ObservationService {
 
   private val toObservation = (row: Row) => Observation(
       NumberUtils.toLong(row.get(0).asInstanceOf[String]).get,
-      NumberUtils.toLong(row.get(1).asInstanceOf[String]).get,
+      row.get(1).asInstanceOf[Long],
       NumberUtils.toLong(row.get(2).asInstanceOf[String]).get,
       DateTime.parse(row.get(3).asInstanceOf[String]),
       DateTime.parse(row.get(3).asInstanceOf[String]).getMillis,

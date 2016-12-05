@@ -22,7 +22,7 @@ class ObservationPeriodService {
   private val dateFormatter = DateTimeFormat.forPattern("yyyyMMDD")
   private val toObservationPeriod = (row: Row) => ObservationPeriod(
       NumberUtils.toLong(row.get(0).asInstanceOf[String]).get,
-      NumberUtils.toLong(row.get(1).asInstanceOf[String]).get,
+      row.get(1).asInstanceOf[Long],
       DateTime.parse(row.get(2).asInstanceOf[String], dateFormatter),
       DateTime.parse(row.get(2).asInstanceOf[String], dateFormatter).getMillis,
       DateTime.parse(row.get(3).asInstanceOf[String], dateFormatter),
