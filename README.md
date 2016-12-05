@@ -21,6 +21,8 @@ Windows
 
 `sbt\sbt.bat compile run`
 
+Note, this may take a few minutes as the server has to reformat the CSV data into a more optimal format. This cost only occurs the first time the server is started. 
+
 **3) Install client dependencies**
 
 Install node.js and the node package manager command line utilities 
